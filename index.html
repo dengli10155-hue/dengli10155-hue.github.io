@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人作品集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+        }
+        html.html-lock-scroll {
+            overflow-y: hidden !important;
+            scrollbar-gutter: stable;
+        }
+        body {
+            background-color: #f8f8f8;
+            color: #222;
+            line-height: 1.6;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            z-index: 99;
+        }
+        .nav-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #666;
+        }
+        .nav-download-btn {
+            margin-left: 2rem;
+            background: #000000;
+            color: #ffffff !important;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            text-decoration: none;
+        }
+        .nav-download-btn:hover {
+            background: #333333;
+            color: #ffffff !important;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 3rem;
+        }
+        section {
+            margin-bottom: 6rem;
+            scroll-margin-top: 85px;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #222;
+            padding-left: 12px;
+        }
+        #home {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 80px;
+        }
+        #home h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        #home p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 600px;
+        }
+        .fade-in-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s ease-out;
+        }
+        .fade-in-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .work-item-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .work-item-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        }
+        .card-preview {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #bbbbbb;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+        .card-preview-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .work-item-card .info {
+            padding: 14px;
+        }
+        .work-item-card h4 {
+            margin: 0 0 6px 0;
+            font-size: 1rem;
+        }
+        .work-item-card p.desc-text {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        /* =========弹窗：大图滚轮放大｜图片可拖拽平移｜底部缩略图横向滚动========= */
+        .modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            z-index: 99999 !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            background: transparent !important;
+        }
+        .modal.show {
+            display: flex !important;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-wrap {
+            position: relative !important;
+            z-index: 2 !important;
+            max-width: 90vw !important;
+            max-height: 88vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .modal-main {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .modal-image-box {
+            position: relative;
+            width: 1440px;
+            max-width: 90vw;
+            max-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .modal-img {
+            position: relative;
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            border-radius: 6px;
+            object-fit: contain;
+            display: block;
+            transform-origin: center center;
+            transition: transform 0.35s ease;
+            cursor: grab;
+        }
+        .modal-img:active{
+            cursor: grabbing;
+        }
+        .modal-close {
+            position: absolute !important;
+            top: -12px !important;
+            right: -48px !important;
+            color: #222;
+            font-size: 2.8rem;
+            cursor: pointer;
+            z-index: 10;
+            user-select: none;
+        }
+        .modal-arrow {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            user-select: none;
+            z-index: 2;
+        }
+        .modal-arrow:hover {
+            background: rgba(0, 0, 0, 0.65);
+        }
+        .modal-prev {
+            left: -72px !important;
+        }
+        .modal-next {
+            right: -72px !important;
+        }
+        /* 底部缩略图区域 */
+        .modal-thumbs-wrapper {
+            width: 100%;
+            max-width: 90vw;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 4px;
+            cursor: grab;
+        }
+        .modal-thumbs-wrapper:active {
+            cursor: grabbing;
+        }
+        .modal-thumbs {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            min-height: 90px;
+            padding: 4px 0;
+        }
+        .modal-thumb {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            background: rgba(0, 0, 0, 0.35);
+        }
+        .modal-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .modal-thumb:hover {
+            transform: scale(1.08);
+        }
+        .modal-thumb.active {
+            border-color: #222;
+        }
+        .modal-page {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #222;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+        #contact p {
+            margin-bottom: 0.6rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .nav-links a {
+                margin-left: 1rem;
+            }
+            .nav-download-btn {
+                margin-left: 1rem;
+                padding: 4px 10px;
+                font-size: 0.85rem;
+            }
+            #home h1 {
+                font-size: 2.2rem;
+            }
+            .modal-image-box {
+                width: 90vw;
+                height: auto;
+                max-height: 68vh;
+            }
+            .modal-img {
+                width: 100%;
+                height: auto;
+                max-height: 68vh;
+            }
+            .modal-prev{
+                left: 8px !important;
+            }
+            .modal-next{
+                right: 8px !important;
+            }
+            .modal-close{
+                top:-40px !important;
+                right:0 !important;
+            }
+            .modal-thumbs {
+                justify-content: flex-start;
+            }
+            .modal-thumb {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrap">
+            <div class="logo">我的作品集</div>
+            <div class="nav-links">
+                <a href="#home">首页</a>
+                <a href="#resume">关于我</a>
+                <a href="#portfolio">作品</a>
+                <a class="nav-download-btn" href="https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA" target="_blank" rel="noopener noreferrer">下载</a>
+                <a href="#contact">联系</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <section id="home" class="fade-in-item">
+            <h1>你好，我是UI设计师邓立</h1>
+            <p>这里是我的个人作品集，展示项目、设计作品与思考。</p>
+        </section>
+        <section id="resume" class="fade-in-item">
+    <h2>个人简历</h2>
+    <div style="display:grid; gap:2rem;">
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">基本信息</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:16px;">
+                <div>姓名：邓立</div>
+                <div>电话：13902334715</div>
+                <div>邮箱：3118079465@qq.com</div>
+                <div>微信号：qlikestudio</div>
+                <div>出生年月：1992.10.15</div>
+            </div>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">教育背景</h3>
+            <p style="font-size:1.1rem; font-weight:500;">2010‑2014 年 广州美术学院</p>
+            <p>动画(影视艺术)专业</p>
+            <div style="margin-top:12px; color:#444; line-height:1.7;">
+                <p><strong>荣誉奖项：</strong>2010届金龙奖，毕业作品《为了下一代》获得金龙奖最佳动画短片金奖。在团队中担任副导演，负责剧本、分镜、角色设定、场景设定、特效、LOGO、片头、漫画、编辑。</p>
+            </div>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:20px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">工作经历</h3>
+            <div style="margin-bottom:24px; border-left:3px solid #27ae60; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2025.10‑2026.06 广州偏锋信息科技有限公司｜UI设计师</p>
+                <p style="color:#555; font-size:0.95rem;">行业类别：游戏｜民营企业｜月薪：17000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>负责小游戏的风格概念设计以及游戏资源输出</li>
+                    <li>负责把控美术资源最终实现效果</li>
+                    <li>SPINE动画前期设计，部分切图资源输出，角色SPINE动画制作</li>
+                    <li>参与游戏高保真原型图设计工作</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>独立负责小游戏从设计到上线全流程，熟悉前期原型流程、游戏视觉表现、UI细节把控。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #88c999; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2024.05‑2025.06 广州字节跳动｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">行业类别：游戏美术｜月薪：19000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>负责小游戏原画相关工作</li>
+                    <li>游戏内角色精修：包含材质优化、光影优化、细节调整、服饰修饰、武器修饰</li>
+                    <li>负责角色设计：包含角色三视图、Q版造型设计、服装设计</li>
+                    <li>负责AI流程搭建：Stable Diffusion新功能研究与落地，实现角色概念批量产出</li>
+                    <li>负责AI系统研究：包含新技术探索与应用进游戏流程</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>深入理解AI的应用，实现更高效的资源产出和更精致的画面效果。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #6099dd; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2023.04‑2024.04 深圳冰封科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：大富翁｜行业类别：网络游戏｜企业性质：民营｜规模：10000+｜月薪：15000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主美确定游戏风格，包括角色、场景、UI等</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>角色表情包设计</li>
+                    <li>人物形象设计：服装、发型、鞋子、包、人物表情等</li>
+                    <li>游戏美宣</li>
+                    <li>游戏内UI图标、场景概念图设计，家具设计，游戏道具设计</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>参与大富翁项目角色设计，以及三星堆相关道具、背景、UI升级图标设计，对项目有很深的理解。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #44aacc; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2022.05‑2023.04 深圳嗨放网络科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：wonderland｜行业类别：网络游戏｜企业性质：民营｜规模：100+｜月薪：18000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主美确定游戏风格，包括角色、场景、UI等</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>指导建模师建模，实现最终效果</li>
+                    <li>人物形象设计：服装、发型、鞋子、包、人物表情等</li>
+                    <li>游戏美宣</li>
+                    <li>游戏内场景图、场景概念图设计，家具设计，游戏道具设计</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉角色服装设计与创角美术流程，产品成功上线海外并持续优化。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #7788ee; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2021.07‑2022.05 深圳飞弹科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：taptap war｜行业类别：网络游戏｜企业性质：民营｜规模：100｜月薪：17000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主美确定游戏风格，包括角色、场景、UI等</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>指导建模师建模，实现最终效果</li>
+                    <li>绘制模型贴图</li>
+                    <li>游戏美宣</li>
+                    <li>输出部分图标</li>
+                    <li>游戏内场景图：idle图、loading图等界面背景图</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉lowpoly欧美卡通风格以及三维美术流程，产品上线Google商城持续优化。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #eebb77; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2020.07‑2021.04 广州三七互娱科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：魔法消消斗｜行业类别：网络游戏｜企业性质：民营｜规模：10000｜月薪：14000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主策确定游戏整体美术风格</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>游戏icon、道具卡设计</li>
+                    <li>游戏特效设计</li>
+                    <li>游戏宣传海报设计</li>
+                    <li>游戏内场景图：idle图、loading图等界面背景图</li>
+                    <li>游戏角色龙骨动画制作</li>
+                    <li>确立画面风格，主导UI展开工作</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉海外消除类游戏制作流程，《魔法消消斗》成功上线持续优化。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #9b59b6; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2018‑2021 业余时间兼职｜米画师认证专业画师</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>服务个人及商业客户，承接插画、原画、动画设计相关业务，积累作品案例60+</li>
+                    <li>米画师个人主页：<a href="https://www.mihuashi.com/profiles/23300" target="_blank" rel="noopener noreferrer">https://www.mihuashi.com/profiles/23300</a></li>
+                </ul>
+            </div>
+            <div style="border-left:3px solid #ee9966; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2014.09‑2020.12 公众号/插画行业/小游戏｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：朕说、大头欢乐学园、大诚当道</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>公众号#朕说#插画绘制，节日图绘制</li>
+                    <li>表情包设计，GIF动图设计</li>
+                    <li>大诚当道品牌插画设计：热狗王汉堡、斗笠翁烤鱼、包道、好吃妹零食</li>
+                    <li>大头欢乐学院微信小游戏：角色形象设计、场景设计、部分UI</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>熟悉商业插画完整流程，掌握Q版、写实、半写实、版画、白描、速写、儿童插画等多种风格，为后续工作打下基础。</p>
+            </div>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">自我评价</h3>
+            <p style="line-height:1.8; margin-top:12px;">
+本人性格开朗、稳重、有活力，待人热情、真诚；工作认真负责，积极主动，能吃苦耐劳，具有承受压力的能力，勇于创新；有很强的组织能力和团队协作精神，具有较强的适应能力；纪律性强，工作积极配合；意志坚强，具有较强的无私奉献精神。
+            </p>
+        </div>
+    </div>
+</section>
+        <section id="portfolio" class="fade-in-item">
+    <div class="section-title">
+        <h2>作品集</h2>
+        <p style="margin-top:8px; opacity:0.7;">平台小游戏 | UI设计师 &nbsp; 2014‑2026</p>
+    </div>
+    <div style="display:flex; gap:12px; margin-top:24px; margin-bottom:20px;">
+        <button id="tab_biz" onclick="switchPortfolioTab('biz')" style="padding:10px 22px; border:none; border-radius:8px; cursor:pointer; font-size:1rem; background:#222; color:#fff;">商业项目</button>
+        <button id="tab_prac" onclick="switchPortfolioTab('prac')" style="padding:10px 22px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:1rem; background:#fff;">个人练习</button>
+    </div>
+    <div id="panel_biz" class="portfolio-grid">
+        <div class="work-item-card" data-imgs='[
+"img/game_spin_thumb.jpg",
+"img/game_spin_pic00.jpg",
+"img/game_spin_pic01.jpg",
+"img/game_spin_pic02.jpg",
+"img/game_spin_pic03.jpg",
+"img/game_spin_pic04.jpg",
+"img/game_spin_pic06.jpg",
+"img/game_spin_pic07.jpg",
+"img/game_spin_picf05.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_spin_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>休闲博弈小游戏:Spin/Chiken...</h4>
+                <p class="desc-text">2026</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_zombie_thumb.jpg",
+"img/game_zombie_pic00.jpg",
+"img/game_zombie_pic01.jpg",
+"img/game_zombie_pic02.jpg",
+"img/game_zombie_pic03.jpg",
+"img/game_zombie_pic04.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_zombie_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>模拟经营：Zombie</h4>
+                <p class="desc-text">2025</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_allwar_thumb.jpg",
+"img/game_allwar_pic01.jpg",
+"img/game_allwar_pic04.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_allwar_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>模拟经营：全民大作战</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_wonder_thumb.jpg",
+"img/game_wonder_pic00.jpg",
+"img/game_wonder_pic01.jpg",
+"img/game_wonder_pic02.jpg",
+"img/game_wonder_pic03.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_wonder_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>多人社交种田：Wonderland</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_taptapwar_thumb.jpg",
+"img/game_taptapwar_pic00.jpg",
+"img/game_taptapwar_pic01.jpg",
+"img/game_taptapwar_pic02.jpg",
+"img/game_taptapwar_pic03.jpg",
+"img/game_taptapwar_pic04.jpg",
+"img/game_taptapwar_pic05.jpg",
+"img/game_taptapwar_pic06.jpg",
+"img/game_taptapwar_pic07.jpg",
+"img/game_taptapwar_pic08.jpg",
+"img/game_taptapwar_pic09.jpg",
+"img/game_taptapwar_pic10.jpg",
+"img/game_taptapwar_pic11.jpg",
+"img/game_taptapwar_pic16.jpg",
+"img/game_taptapwar_pic17.jpg",
+"img/game_taptapwar_pic18.jpg",
+"img/game_taptapwar_pic19.jpg",
+"img/game_taptapwar_pic20.jpg",
+"img/game_taptapwar_pic21.jpg",
+"img/game_taptapwar_pic22.jpg",
+"img/game_taptapwar_pic23.jpg",
+"img/game_taptapwar_pic24.jpg",
+"img/game_taptapwar_pic25.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_taptapwar_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>多人对战竞技：Taptap war</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_magicmatch_thumb.jpg",
+"img/game_magicmatch_pic00.jpg",
+"img/game_magicmatch_pic01.jpg",
+"img/game_magicmatch_pic02.jpg",
+"img/game_magicmatch_pic03.jpg",
+"img/game_magicmatch_pic04.jpg",
+"img/game_magicmatch_pic05.jpg",
+"img/game_magicmatch_pic06.jpg",
+"img/game_magicmatch_pic07.jpg",
+"img/game_magicmatch_pic08.jpg",
+"img/game_magicmatch_pic09.jpg",
+"img/game_magicmatch_pic10.jpg",
+"img/game_magicmatch_pic11.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_magicmatch_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>消除游戏：魔法消消斗</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_kid_thumb.jpg",
+"img/game_kid_pic00.jpg",
+"img/game_kid_pic01.jpg",
+"img/game_kid_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_kid_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>儿童游戏/小游戏</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_zenshuo_thumb.jpg",
+"img/art_zenshuo_pic01.jpg",
+"img/art_zenshuo_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_zenshuo_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>公众号IP插画：朕说</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_comic_thumb.jpg",
+"img/art_comic_pic00.jpg",
+"img/art_comic_pic01.jpg",
+"img/art_comic_pic02.jpg",
+"img/art_comic_pic03.jpg",
+"img/art_comic_pic04.jpg",
+"img/art_comic_pic05.jpg",
+"img/art_comic_pic06.jpg",
+"img/art_comic_pic07.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_comic_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>插画/漫画</h4>
+                <p class="desc-text">2014‑2017</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_grad_thumb.jpg",
+"img/art_grad_pic00.jpg",
+"img/art_grad_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_grad_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>毕业动画作品</h4>
+                <p class="desc-text">《为了下一代》</p>
+            </div>
+        </div>
+    </div>
+    <div id="panel_prac" class="portfolio-grid" style="display:none;">
+        <div class="work-item-card" data-imgs='[
+"img/char_scifi_girl_thumb.jpg",
+"img/char_scifi_girl_pic00.jpg",
+"img/char_scifi_girl_pic01.jpg",
+"img/char_scifi_girl_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_scifi_girl_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/科幻/少女</h4>
+                <p class="desc-text">#成套IP练习</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_flower_thumb.jpg",
+"img/char_flower_pic.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_flower_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/休闲游戏/花店</h4>
+                <p class="desc-text">#经营类欧卡主角概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_viking_thumb.jpg",
+"img/char_viking_pic00.jpg",
+"img/char_viking_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_viking_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/维京/部落</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='["img/char_real_style_thumb.jpg"]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_real_style_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>写实角色风格化设定</h4>
+                <p class="desc-text">#给腾讯出的概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_lowpoly_thumb.jpg",
+"img/char_lowpoly_pic00.jpg",
+"img/char_lowpoly_pic01.jpg",
+"img/char_lowpoly_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_lowpoly_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/LOWPOLY</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='["img/char_space_thumb.jpg"]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_space_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/卡通/宇航</h4>
+                <p class="desc-text">#B站初音活动概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='["img/char_chibi_figure_thumb.jpg"]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_chibi_figure_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/手办/Q版</h4>
+                <p class="desc-text">#某社交游戏角色概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/scene_q_nightmarket_thumb.jpg"
+]'>
+        <div class="card-preview">
+                <img class="card-preview-img" src="img/scene_q_nightmarket_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>Q版场景</h4>
+                <p class="desc-text">#动物夜市/场景概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_cook_thumb.jpg",
+"img/char_cook_pic01.jpg",
+"img/char_cook_pic02.jpg"
+]'>
+    <div class="card-preview">
+        <img class="card-preview-img" src="img/char_cook_thumb.jpg" alt="项目封面">
+    </div>
+    <div class="info">
+        <h4>欧卡/经营/厨师</h4>
+    </div>
+</div>
+
+        <div class="work-item-card" data-imgs='[
+"img/char_rock_apoc_thumb.jpg",
+"img/char_rock_apoc_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_rock_apoc_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>欧卡/SLG/摇滚手/末日</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_archer_thumb.jpg",
+"img/char_archer_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_archer_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>二次元/弓箭手</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/ip_doudizhu_thumb.jpg",
+"img/ip_doudizhu_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/ip_doudizhu_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>斗地主IP设计</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_anime_thumb.jpg",
+"img/char_anime_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_anime_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>二次元风</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_moon_anci_thumb.jpg",
+"img/art_moon_anci_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_moon_anci_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>古风/月亮</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_poster_honor_thumb.jpg",
+"img/art_poster_honor_pic.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_poster_honor_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>美宣/王者皮肤</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_anci_male_thumb.jpg",
+"img/char_anci_male_pic01.jpg",
+"img/char_anci_male_pic02.jpg",
+"img/char_anci_male_pic03.jpg",
+"img/char_anci_male_pic04.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_anci_male_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>古风/男角色临摹</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_slot_egypt_thumb.jpg",
+"img/art_slot_egypt_pic00.jpg",
+"img/art_slot_egypt_pic01.jpg",
+"img/art_slot_egypt_pic02.jpg",
+"img/art_slot_egypt_pic03.jpg",
+"img/art_slot_egypt_pic04.jpg",
+"img/art_slot_egypt_pic05.jpg",
+"img/art_slot_egypt_pic06.jpg",
+"img/art_slot_egypt_pic07.jpg",
+"img/art_slot_egypt_pic08.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_slot_egypt_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>SLOT/埃及</h4>
+                <p class="desc-text">#写实风</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/ui_match_royal_thumb.jpg",
+"img/ui_match_royal_pic01.jpg",
+"img/ui_match_royal_pic02.jpg",
+"img/ui_match_royal_pic03.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/ui_match_royal_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>欧卡/UI/消除</h4>
+                <p class="desc-text">#类ROYAL MATCH UI设计</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_3d_model_thumb.jpg",
+"img/char_3d_model_pic01.jpg",
+"img/char_3d_model_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_3d_model_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>3D角色建模</h4>
+                <p class="desc-text">#角色建模作品</p>
+            </div>
+        </div>
+    </div>
+        </section>
+        <section id="contact" class="fade-in-item">
+            <h2>联系我</h2>
+            <p>邮箱：3118079465@qq.com</p>
+            <p>微信号：qlikestudio</p>
+            <p>电话：13902334715</p>
+            <p>如需作品集完整打包文件，可通过以上联系方式向我索取。</p>
+        </section>
+    </div>
+    <div class="modal" id="imgModal">
+        <div class="modal-wrap">
+            <span class="modal-close">&times;</span>
+            <div class="modal-main">
+                <button class="modal-prev modal-arrow">&lt;</button>
+                <div class="modal-image-box">
+                    <img class="modal-img" id="dragImg" src="" alt="作品大图">
+                </div>
+                <button class="modal-next modal-arrow">&gt;</button>
+            </div>
+            <div class="modal-thumbs-wrapper" id="modalThumbsWrapper">
+                <div class="modal-thumbs" id="modalThumbs"></div>
+            </div>
+            <div class="modal-page" id="modalPage"></div>
+        </div>
+    </div>
+    <footer>
+        © 2026 个人作品集
+    </footer>
+    <script>
+        function switchPortfolioTab(type) {
+            const tabBiz = document.getElementById('tab_biz');
+            const tabPrac = document.getElementById('tab_prac');
+            const panelBiz = document.getElementById('panel_biz');
+            const panelPrac = document.getElementById('panel_prac');
+            if (type === 'biz') {
+                tabBiz.style.background = "#222";
+                tabBiz.style.color = "#fff";
+                tabPrac.style.background = "#fff";
+                tabPrac.style.color = "#000";
+                tabPrac.style.border = "1px solid #ddd";
+                panelBiz.style.display = "grid";
+                panelPrac.style.display = "none";
+            } else {
+                tabPrac.style.background = "#222";
+                tabPrac.style.color = "#fff";
+                tabBiz.style.background = "#fff";
+                tabBiz.style.color = "#000";
+                tabBiz.style.border = "1px solid #ddd";
+                panelPrac.style.display = "grid";
+                panelBiz.style.display = "none";
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.nav-links a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            const modal = document.getElementById("imgModal");
+            const modalImg = document.getElementById("dragImg");
+            const modalPage = document.getElementById("modalPage");
+            const modalThumbs = document.getElementById("modalThumbs");
+            const modalThumbsWrapper = document.getElementById("modalThumbsWrapper");
+            const btnPrev = modal.querySelector(".modal-prev");
+            const btnNext = modal.querySelector(".modal-next");
+            const btnClose = modal.querySelector(".modal-close");
+            let galleryImgs = [];
+            let galleryIndex = 0;
+            let currentScale = 1;
+            const minScale = 1;
+            const maxScale = 3;
+            //拖拽平移变量
+            let isDragging = false;
+            let startX = 0;
+            let startY = 0;
+            let translateX = 0;
+            let translateY = 0;
+            function resetImageScale() {
+                currentScale = 1;
+                translateX = 0;
+                translateY = 0;
+                modalImg.style.transform = `translate(${translateX}px,${translateY}px) scale(${currentScale})`;
+            }
+            function renderThumbs() {
+                modalThumbs.innerHTML = "";
+                galleryImgs.forEach((src, index) => {
+                    const thumb = document.createElement("div");
+                    thumb.className = "modal-thumb" + (index === galleryIndex ? " active" : "");
+                    thumb.innerHTML = `<img src="${src}" alt="缩略图">`;
+                    thumb.addEventListener("click", () => {
+                        galleryIndex = index;
+                        renderModal();
+                    });
+                    modalThumbs.appendChild(thumb);
+                });
+            }
+            function renderModal() {
+                modalImg.src = galleryImgs[galleryIndex];
+                modalPage.innerText = `${galleryIndex + 1} / ${galleryImgs.length}`;
+                resetImageScale();
+                renderThumbs();
+            }
+            function goPrev() {
+                galleryIndex--;
+                if (galleryIndex < 0) galleryIndex = galleryImgs.length - 1;
+                renderModal();
+            }
+            function goNext() {
+                galleryIndex++;
+                if (galleryIndex >= galleryImgs.length) galleryIndex = 0;
+                renderModal();
+            }
+            function openModal() {
+                document.documentElement.classList.add('html-lock-scroll');
+                modalImg.style.transform = "translate(0px,0px) scale(0)";
+                modal.classList.add("show");
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        modalImg.style.transform = `translate(${translateX}px,${translateY}px) scale(${currentScale})`;
+                    });
+                });
+            }
+            function closeModal() {
+                modalImg.style.transform = "translate(0px,0px) scale(0)";
+                setTimeout(() => {
+                    modal.classList.remove("show");
+                    modalImg.style.transform = "";
+                    document.documentElement.classList.remove('html-lock-scroll');
+                }, 350);
+            }
+            //鼠标按下
+            modalImg.addEventListener('mousedown', function(e){
+                if(currentScale <= 1) return;
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                modalImg.style.transition = 'none';
+                e.preventDefault();
+            });
+            //鼠标移动
+            document.addEventListener('mousemove', function(e){
+                if(!isDragging) return;
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                modalImg.style.transform = `translate(${translateX}px,${translateY}px) scale(${currentScale})`;
+            });
+            //鼠标抬起/离开
+            document.addEventListener('mouseup', function(){
+                if(isDragging){
+                    isDragging = false;
+                    modalImg.style.transition = 'transform 0.35s ease';
+                }
+            });
+            document.addEventListener('mouseleave', function(){
+                if(isDragging){
+                    isDragging = false;
+                    modalImg.style.transition = 'transform 0.35s ease';
+                }
+            });
+            //滚轮
+            modal.addEventListener("wheel", function (e) {
+                if (!modal.classList.contains("show")) return;
+                const target = e.target;
+                if (modalThumbsWrapper.contains(target)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    modalThumbsWrapper.scrollLeft += e.deltaY;
+                    return;
+                }
+                e.preventDefault();
+                e.stopPropagation();
+                if(e.deltaY < 0){
+                    currentScale = Math.min(currentScale + 0.15, maxScale);
+                }else{
+                    currentScale = Math.max(currentScale - 0.15, minScale);
+                }
+                //缩放时重置偏移
+                if(currentScale <=1){
+                    translateX = 0;
+                    translateY =0;
+                }
+                modalImg.style.transform = `translate(${translateX}px,${translateY}px) scale(${currentScale})`;
+            }, { passive: false });
+            btnPrev.addEventListener("click", goPrev);
+            btnNext.addEventListener("click", goNext);
+            btnClose.addEventListener("click", closeModal);
+            modal.addEventListener('click',function(e){
+                if(e.target === modal){
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown',function(e){
+                if(!modal.classList.contains('show')) return;
+                if(e.key === 'Escape') closeModal();
+                if(e.key === 'ArrowLeft') goPrev();
+                if(e.key === 'ArrowRight') goNext();
+            });
+            document.querySelectorAll(".work-item-card").forEach(card=>{
+                card.addEventListener("click",()=>{
+                    let raw = card.getAttribute('data-imgs');
+                    let arr = [];
+                    try{
+                        arr = JSON.parse(raw);
+                    }catch(err){
+                        arr = [];
+                    }
+                    galleryImgs = arr;
+                    if(galleryImgs.length ===0){
+                        alert("该项目暂无作品图片");
+                        return;
+                    }
+                    galleryIndex = 0;
+                    renderModal();
+                    openModal();
+                })
+            });
+            const fadeItems = document.querySelectorAll('.fade-in-item');
+            function checkFade() {
+                fadeItems.forEach(item=>{
+                    const rect = item.getBoundingClientRect();
+                    if(rect.top < window.innerHeight * 0.85){
+                        item.classList.add('active');
+                    }
+                })
+            }
+            window.addEventListener('scroll', checkFade);
+            checkFade();
+        });
+    </script>
+</body>
+</html>
