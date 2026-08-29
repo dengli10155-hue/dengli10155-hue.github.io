@@ -320,7 +320,6 @@
             color: #777;
             font-size: 0.9rem;
         }
-
         /* =========下载弹窗样式========== */
         .overlay{
             position:fixed;
@@ -402,7 +401,6 @@
             font‑size:13px;
             color:#777;
         }
-
         @media (max-width: 768px) {
             .nav-links a {
                 margin-left: 1rem;
@@ -458,7 +456,6 @@
             </div>
         </div>
     </nav>
-
     <!-- 下载弹窗层 -->
     <div class="overlay" id="downloadOverlay">
         <div class="popup-box">
@@ -475,9 +472,10 @@
                 <form action="https://formsubmit.co/3118079465@qq.com" method="POST">
                     <input type="hidden" name="_next" value="https://dengli10155‑hue.github.io/">
                     <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="作品集网站收到下载请求">
                     <div class="form‑row">
                         <label>HR工作邮箱</label>
-                        <input type="email" name="hr_email" placeholder="请输入邮箱地址" required>
+                        <input type="email" name="email" placeholder="请输入邮箱地址" required>
                     </div>
                     <button class="popup-btn btn‑email" type="submit">提交获得作品集</button>
                 </form>
@@ -486,7 +484,6 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <section id="home" class="fade-in-item">
             <h1>你好，我是UI设计师邓立</h1>
@@ -1071,44 +1068,36 @@
         const btnOpenEmailForm = document.getElementById('btnOpenEmailForm');
         const popupCloseSelect = document.getElementById('popupCloseSelect');
         const popupBackSelect = document.getElementById('popupBackSelect');
-
         openDownloadPopupBtn.addEventListener('click',()=>{
             downloadOverlay.classList.add('show');
             popupSelect.classList.remove('hide');
             popupEmail.classList.remove('show');
         });
-
         btnNetdisk.addEventListener('click',()=>{
             window.open("https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA","_blank");
             downloadOverlay.classList.remove('show');
         });
-
         btnOpenEmailForm.addEventListener('click',()=>{
             popupSelect.classList.add('hide');
             popupEmail.classList.add('show');
         });
-
         popupBackSelect.addEventListener('click',()=>{
             popupEmail.classList.remove('show');
             popupSelect.classList.remove('hide');
         });
-
         popupCloseSelect.addEventListener('click',()=>{
             downloadOverlay.classList.remove('show');
         });
-
         downloadOverlay.addEventListener('click',function(e){
             if(e.target === downloadOverlay){
                 downloadOverlay.classList.remove('show');
             }
         });
-
         document.addEventListener('keydown',function(e){
             if(e.key === "Escape"){
                 downloadOverlay.classList.remove('show');
             }
         });
-
         function switchPortfolioTab(type) {
             const tabBiz = document.getElementById('tab_biz');
             const tabPrac = document.getElementById('tab_prac');
