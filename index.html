@@ -469,15 +469,14 @@
             </div>
             <div class="popup‑email" id="popupEmail">
                 <h3>填写HR邮箱</h3>
-                <form action="https://formsubmit.co/3118079465@qq.com" method="POST">
-                    <input type="hidden" name="_next" value="https://dengli10155‑hue.github.io/">
-                    <input type="hidden" name="_captcha" value="false">
+                <form id="downloadForm">
                     <input type="hidden" name="_subject" value="作品集网站收到下载请求">
+                    <input type="hidden" name="_captcha" value="false">
                     <div class="form‑row">
                         <label>HR工作邮箱</label>
                         <input type="email" name="email" placeholder="请输入邮箱地址" required>
                     </div>
-                    <button class="popup-btn btn‑email" type="submit">提交获得作品集</button>
+                    <button class="popup-btn btn‑email" id="submitFormBtn" type="submit">提交获得作品集</button>
                 </form>
                 <button class="popup-btn btn‑close‑pop" id="popupBackSelect" style="margin‑top:14px;">返回上一步</button>
                 <p class="tip‑text">提交后我将人工回复发送完整ZIP文件。</p>
@@ -1068,36 +1067,71 @@
         const btnOpenEmailForm = document.getElementById('btnOpenEmailForm');
         const popupCloseSelect = document.getElementById('popupCloseSelect');
         const popupBackSelect = document.getElementById('popupBackSelect');
+        const downloadForm = document.getElementById('downloadForm');
+        const submitFormBtn = document.getElementById('submitFormBtn');
+
         openDownloadPopupBtn.addEventListener('click',()=>{
             downloadOverlay.classList.add('show');
             popupSelect.classList.remove('hide');
             popupEmail.classList.remove('show');
         });
+
         btnNetdisk.addEventListener('click',()=>{
-            window.open("https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA","_blank");
+            window.open("https://pan.baidu.com/s/1VU0u‑BjEiMUzdp1SPRqGyA","_blank");
             downloadOverlay.classList.remove('show');
         });
+
         btnOpenEmailForm.addEventListener('click',()=>{
             popupSelect.classList.add('hide');
             popupEmail.classList.add('show');
         });
+
         popupBackSelect.addEventListener('click',()=>{
             popupEmail.classList.remove('show');
             popupSelect.classList.remove('hide');
         });
+
         popupCloseSelect.addEventListener('click',()=>{
             downloadOverlay.classList.remove('show');
         });
+
         downloadOverlay.addEventListener('click',function(e){
             if(e.target === downloadOverlay){
                 downloadOverlay.classList.remove('show');
             }
         });
+
         document.addEventListener('keydown',function(e){
             if(e.key === "Escape"){
                 downloadOverlay.classList.remove('show');
             }
         });
+
+        //异步提交表单，无页面跳转，提交成功提示并自动关闭弹窗
+        downloadForm.addEventListener('submit', async function(e){
+            e.preventDefault();
+            submitFormBtn.disabled = true;
+            submitFormBtn.textContent = "正在提交…";
+            const formData = new FormData(downloadForm);
+            try{
+                await fetch("https://formsubmit.co/3118079465@qq.com", {
+                    method:"POST",
+                    body: formData,
+                    mode:"no‑cors"
+                });
+                alert("提交成功！我会尽快人工发送作品集");
+                downloadForm.reset();
+                setTimeout(()=>{
+                    downloadOverlay.classList.remove('show');
+                },2000);
+            }catch(err){
+                alert("提交异常，请稍后重试");
+            }finally{
+                submitFormBtn.disabled = false;
+                submitFormBtn.textContent = "提交获得作品集";
+            }
+        });
+
         function switchPortfolioTab(type) {
             const tabBiz = document.getElementById('tab_biz');
             const tabPrac = document.getElementById('tab_prac');
@@ -1164,7 +1198,7 @@
                 modalThumbs.innerHTML = "";
                 galleryImgs.forEach((src, index) => {
                     const thumb = document.createElement("div");
-                    thumb.className = "modal-thumb" + (index === galleryIndex ? " active" : "");
+                    thumb.className = "modal‑thumb" + (index === galleryIndex ? " active" : "");
                     thumb.innerHTML = `<img src="${src}" alt="缩略图">`;
                     thumb.addEventListener("click", () => {
                         galleryIndex = index;
@@ -1190,7 +1224,7 @@
                 renderModal();
             }
             function openModal() {
-                document.documentElement.classList.add('html-lock-scroll');
+                document.documentElement.classList.add('html‑lock‑scroll');
                 modalImg.style.transform = "translate(0px,0px) scale(0)";
                 modal.classList.add("show");
                 requestAnimationFrame(() => {
@@ -1204,7 +1238,7 @@
                 setTimeout(() => {
                     modal.classList.remove("show");
                     modalImg.style.transform = "";
-                    document.documentElement.classList.remove('html-lock-scroll');
+                    document.documentElement.classList.remove('html‑lock‑scroll');
                 }, 350);
             }
             //鼠标按下
@@ -1274,9 +1308,9 @@
                 if(e.key === 'ArrowLeft') goPrev();
                 if(e.key === 'ArrowRight') goNext();
             });
-            document.querySelectorAll(".work-item-card").forEach(card=>{
+            document.querySelectorAll(".work‑item‑card").forEach(card=>{
                 card.addEventListener("click",()=>{
-                    let raw = card.getAttribute('data-imgs');
+                    let raw = card.getAttribute('data‑imgs');
                     let arr = [];
                     try{
                         arr = JSON.parse(raw);
@@ -1293,7 +1327,7 @@
                     openModal();
                 })
             });
-            const fadeItems = document.querySelectorAll('.fade-in-item');
+            const fadeItems = document.querySelectorAll('.fade‑in‑item');
             function checkFade() {
                 fadeItems.forEach(item=>{
                     const rect = item.getBoundingClientRect();
