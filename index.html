@@ -1122,7 +1122,6 @@ const observer = new IntersectionObserver((entries)=>{
 },observerOptions);
 sections.forEach(s=>{if(s) observer.observe(s);})
 window.addEventListener('load',()=>{ updateUnderline(navItems[0]); });
-
 //FAQ弹窗
 const floatHelpBtn = document.getElementById('floatHelpBtn');
 const helpDialog = document.getElementById('helpDialog');
@@ -1149,7 +1148,6 @@ document.querySelectorAll('.q-btn').forEach(btn=>{
         btn.nextElementSibling.classList.toggle('show');
     })
 })
-
 //滚动渐入
 const fadeItems = document.querySelectorAll('.fade-in-item');
 const fadeObserver = new IntersectionObserver((entries)=>{
@@ -1160,7 +1158,6 @@ const fadeObserver = new IntersectionObserver((entries)=>{
     })
 },{threshold:0.1});
 fadeItems.forEach(i=>fadeObserver.observe(i));
-
 //tab切换
 function switchPortfolioTab(mode){
     const biz = document.getElementById('panel_biz');
@@ -1177,7 +1174,6 @@ function switchPortfolioTab(mode){
         tb.style.background='#fff'; tb.style.color='#333';
     }
 }
-
 //作品弹窗
 const modal = document.getElementById('imgModal');
 const modalImg = document.getElementById('dragImg');
@@ -1192,7 +1188,6 @@ let scale = 1;
 let dx=0, dy=0;
 let isDrag=false;
 let dragStartX=0,dragStartY=0,startDx=0,startDy=0;
-
 document.querySelectorAll('.work-item-card').forEach(card=>{
     card.addEventListener('click',()=>{
         currentList = JSON.parse(card.dataset.imgs);
@@ -1266,7 +1261,6 @@ window.addEventListener('mousemove',(e)=>{
     modalImg.style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
 })
 window.addEventListener('mouseup',()=>{isDrag=false;})
-
 //下载弹窗
 const overlay = document.getElementById('downloadOverlay');
 const btnOpenPopup = document.getElementById('openDownloadPopup');
@@ -1279,6 +1273,10 @@ const emailForm = document.getElementById('emailForm');
 const submitEmailBtn = document.getElementById('submitEmailBtn');
 const inputEmail = document.getElementById('inputEmail');
 const btnNetdisk = document.getElementById('btnNetdisk');
+
+// ============这里修改你的网盘地址================
+const BAIDU_NETDISK_URL = "https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA";
+// =================================================
 
 btnOpenPopup.addEventListener('click',()=>{
     overlay.classList.add('show');
@@ -1308,8 +1306,10 @@ emailForm.addEventListener('submit',(e)=>{
     submitEmailBtn.disabled = true;
     setTimeout(()=>{ overlay.classList.remove('show'); },1200);
 })
+//点击百度网盘按钮，新标签打开网盘链接，同时关闭弹窗
 btnNetdisk.addEventListener('click',()=>{
-    alert('https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA');
+    window.open(BAIDU_NETDISK_URL,"_blank");
+    overlay.classList.remove('show');
 })
 </script>
 </body>
