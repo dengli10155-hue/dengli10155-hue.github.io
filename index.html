@@ -401,6 +401,23 @@
             font‑size:13px;
             color:#777;
         }
+        /*成功提示浮层*/
+        .toast-success{
+            position:fixed;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            background:rgba(0,0,0,0.75);
+            color:#fff;
+            padding:20px 32px;
+            border-radius:8px;
+            font-size:16px;
+            z-index:10001;
+            display:none;
+        }
+        .toast-success.show{
+            display:block;
+        }
         @media (max-width: 768px) {
             .nav-links a {
                 margin-left: 1rem;
@@ -483,6 +500,9 @@
             </div>
         </div>
     </div>
+    <!--成功提示浮层-->
+    <div class="toast-success" id="toastSuccess">提交成功！我会尽快人工发送作品集</div>
+
     <div class="container">
         <section id="home" class="fade-in-item">
             <h1>你好，我是UI设计师邓立</h1>
@@ -1069,6 +1089,7 @@
         const popupBackSelect = document.getElementById('popupBackSelect');
         const downloadForm = document.getElementById('downloadForm');
         const submitFormBtn = document.getElementById('submitFormBtn');
+        const toastSuccess = document.getElementById('toastSuccess');
 
         openDownloadPopupBtn.addEventListener('click',()=>{
             downloadOverlay.classList.add('show');
@@ -1107,29 +1128,23 @@
             }
         });
 
-        //异步提交表单，无页面跳转，提交成功提示并自动关闭弹窗
-        downloadForm.addEventListener('submit', async function(e){
+        //仅做前端交互表现，不管后台发送结果；3秒提示后关闭弹窗
+        downloadForm.addEventListener('submit', function(e){
             e.preventDefault();
-            submitFormBtn.disabled = true;
-            submitFormBtn.textContent = "正在提交…";
             const formData = new FormData(downloadForm);
-            try{
-                await fetch("https://formsubmit.co/3118079465@qq.com", {
-                    method:"POST",
-                    body: formData,
-                    mode:"no‑cors"
-                });
-                alert("提交成功！我会尽快人工发送作品集");
-                downloadForm.reset();
-                setTimeout(()=>{
-                    downloadOverlay.classList.remove('show');
-                },2000);
-            }catch(err){
-                alert("提交异常，请稍后重试");
-            }finally{
-                submitFormBtn.disabled = false;
-                submitFormBtn.textContent = "提交获得作品集";
-            }
+            //后台发送，不处理返回结果，不做失败判断
+            fetch("https://formsubmit.co/3118079465@qq.com", {
+                method:"POST",
+                body: formData,
+                mode:"no‑cors"
+            });
+            //直接前端表现成功
+            downloadForm.reset();
+            toastSuccess.classList.add('show');
+            setTimeout(()=>{
+                toastSuccess.classList.remove('show');
+                downloadOverlay.classList.remove('show');
+            },3000);
         });
 
         function switchPortfolioTab(type) {
