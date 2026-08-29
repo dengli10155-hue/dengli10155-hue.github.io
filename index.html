@@ -1306,10 +1306,10 @@ emailForm.addEventListener('submit', async (e)=>{
     submitEmailBtn.disabled = true;
 
     try {
-        const res = await fetch("https://green‑boat‑a012.3118079465.workers.dev", {
+        const res = await fetch("https://green-boat-a012.3118079465.workers.dev", {
             method: "POST",
             headers: {
-                "Content‑Type": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 to: userEmail
@@ -1333,6 +1333,7 @@ emailForm.addEventListener('submit', async (e)=>{
         submitEmailBtn.disabled = false;
     }
 })
+
 
 //点击百度网盘按钮，新标签打开网盘链接，同时关闭弹窗
 btnNetdisk.addEventListener('click',()=>{
