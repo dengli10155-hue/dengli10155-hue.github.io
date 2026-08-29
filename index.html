@@ -366,6 +366,10 @@
             background:#222;
             color:#fff;
         }
+        .btn‑email.success-state{
+            background:#27ae60;
+            color:#ffffff;
+        }
         .btn‑close‑pop{
             margin-top:16px;
             background:#eee;
@@ -401,22 +405,11 @@
             font‑size:13px;
             color:#777;
         }
-        /*成功提示浮层*/
-        .toast-success{
-            position:fixed;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            background:rgba(0,0,0,0.75);
-            color:#fff;
-            padding:20px 32px;
-            border-radius:8px;
-            font-size:16px;
-            z-index:10001;
-            display:none;
+        #submitEmailBtn {
+            margin-bottom:16px;
         }
-        .toast-success.show{
-            display:block;
+        #popupBackSelect {
+            margin-top:0;
         }
         @media (max-width: 768px) {
             .nav-links a {
@@ -485,24 +478,21 @@
                 <button class="popup-btn btn‑close‑pop" id="popupCloseSelect">取消</button>
             </div>
             <div class="popup‑email" id="popupEmail">
-                <h3>填写HR邮箱</h3>
-                <form id="downloadForm">
-                    <input type="hidden" name="_subject" value="作品集网站收到下载请求">
+                <form id="emailForm">
+                    <input type="hidden" name="_next" value="https://dengli10155‑hue.github.io/">
                     <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="作品集网站收到下载请求">
                     <div class="form‑row">
-                        <label>HR工作邮箱</label>
-                        <input type="email" name="email" placeholder="请输入邮箱地址" required>
+                        <label>填写邮箱</label>
+                        <input type="email" name="email" id="inputEmail" placeholder="请输入邮箱地址" required>
                     </div>
-                    <button class="popup-btn btn‑email" id="submitFormBtn" type="submit">提交获得作品集</button>
+                    <button class="popup-btn btn‑email" id="submitEmailBtn" type="submit">提交获得作品集</button>
                 </form>
-                <button class="popup-btn btn‑close‑pop" id="popupBackSelect" style="margin‑top:14px;">返回上一步</button>
+                <button class="popup-btn btn‑close‑pop" id="popupBackSelect">返回上一步</button>
                 <p class="tip‑text">提交后我将人工回复发送完整ZIP文件。</p>
             </div>
         </div>
     </div>
-    <!--成功提示浮层-->
-    <div class="toast-success" id="toastSuccess">提交成功！我会尽快人工发送作品集</div>
-
     <div class="container">
         <section id="home" class="fade-in-item">
             <h1>你好，我是UI设计师邓立</h1>
@@ -1087,66 +1077,69 @@
         const btnOpenEmailForm = document.getElementById('btnOpenEmailForm');
         const popupCloseSelect = document.getElementById('popupCloseSelect');
         const popupBackSelect = document.getElementById('popupBackSelect');
-        const downloadForm = document.getElementById('downloadForm');
-        const submitFormBtn = document.getElementById('submitFormBtn');
-        const toastSuccess = document.getElementById('toastSuccess');
-
+        const emailForm = document.getElementById('emailForm');
+        const submitEmailBtn = document.getElementById('submitEmailBtn');
+        const inputEmail = document.getElementById('inputEmail');
+        //重置邮箱表单按钮状态
+        function resetEmailFormState(){
+            submitEmailBtn.disabled = false;
+            submitEmailBtn.textContent = "提交获得作品集";
+            submitEmailBtn.classList.remove('success-state');
+            inputEmail.value = '';
+        }
         openDownloadPopupBtn.addEventListener('click',()=>{
             downloadOverlay.classList.add('show');
             popupSelect.classList.remove('hide');
             popupEmail.classList.remove('show');
+            resetEmailFormState();
         });
-
         btnNetdisk.addEventListener('click',()=>{
-            window.open("https://pan.baidu.com/s/1VU0u‑BjEiMUzdp1SPRqGyA","_blank");
+            window.open("https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA","_blank");
             downloadOverlay.classList.remove('show');
         });
-
         btnOpenEmailForm.addEventListener('click',()=>{
             popupSelect.classList.add('hide');
             popupEmail.classList.add('show');
         });
-
         popupBackSelect.addEventListener('click',()=>{
             popupEmail.classList.remove('show');
             popupSelect.classList.remove('hide');
         });
-
         popupCloseSelect.addEventListener('click',()=>{
             downloadOverlay.classList.remove('show');
         });
-
         downloadOverlay.addEventListener('click',function(e){
             if(e.target === downloadOverlay){
                 downloadOverlay.classList.remove('show');
             }
         });
-
         document.addEventListener('keydown',function(e){
             if(e.key === "Escape"){
                 downloadOverlay.classList.remove('show');
             }
         });
-
-        //仅做前端交互表现，不管后台发送结果；3秒提示后关闭弹窗
-        downloadForm.addEventListener('submit', function(e){
+        //邮箱表单提交：fetch静默发送，不跳转页面
+        emailForm.addEventListener('submit', async function(e){
             e.preventDefault();
-            const formData = new FormData(downloadForm);
-            //后台发送，不处理返回结果，不做失败判断
-            fetch("https://formsubmit.co/3118079465@qq.com", {
-                method:"POST",
-                body: formData,
-                mode:"no‑cors"
-            });
-            //直接前端表现成功
-            downloadForm.reset();
-            toastSuccess.classList.add('show');
+            const formData = new FormData(emailForm);
+            //按钮状态立刻变更
+            submitEmailBtn.classList.add('success-state');
+            submitEmailBtn.textContent = "提交成功";
+            submitEmailBtn.disabled = true;
+            try{
+                await fetch("https://formsubmit.co/3118079465@qq.com",{
+                    method:"POST",
+                    body: formData,
+                    mode:"no-cors"
+                });
+            }catch(err){
+                //no‑cors模式下浏览器会报跨域，但是后台已经收到请求，忽略异常
+            }
+            //1.2秒关闭弹窗
             setTimeout(()=>{
-                toastSuccess.classList.remove('show');
                 downloadOverlay.classList.remove('show');
-            },3000);
+            },1200);
         });
-
         function switchPortfolioTab(type) {
             const tabBiz = document.getElementById('tab_biz');
             const tabPrac = document.getElementById('tab_prac');
@@ -1213,7 +1206,7 @@
                 modalThumbs.innerHTML = "";
                 galleryImgs.forEach((src, index) => {
                     const thumb = document.createElement("div");
-                    thumb.className = "modal‑thumb" + (index === galleryIndex ? " active" : "");
+                    thumb.className = "modal-thumb" + (index === galleryIndex ? " active" : "");
                     thumb.innerHTML = `<img src="${src}" alt="缩略图">`;
                     thumb.addEventListener("click", () => {
                         galleryIndex = index;
@@ -1239,7 +1232,7 @@
                 renderModal();
             }
             function openModal() {
-                document.documentElement.classList.add('html‑lock‑scroll');
+                document.documentElement.classList.add('html-lock-scroll');
                 modalImg.style.transform = "translate(0px,0px) scale(0)";
                 modal.classList.add("show");
                 requestAnimationFrame(() => {
@@ -1253,7 +1246,7 @@
                 setTimeout(() => {
                     modal.classList.remove("show");
                     modalImg.style.transform = "";
-                    document.documentElement.classList.remove('html‑lock‑scroll');
+                    document.documentElement.classList.remove('html-lock-scroll');
                 }, 350);
             }
             //鼠标按下
@@ -1323,9 +1316,9 @@
                 if(e.key === 'ArrowLeft') goPrev();
                 if(e.key === 'ArrowRight') goNext();
             });
-            document.querySelectorAll(".work‑item‑card").forEach(card=>{
+            document.querySelectorAll(".work-item-card").forEach(card=>{
                 card.addEventListener("click",()=>{
-                    let raw = card.getAttribute('data‑imgs');
+                    let raw = card.getAttribute('data-imgs');
                     let arr = [];
                     try{
                         arr = JSON.parse(raw);
@@ -1342,7 +1335,7 @@
                     openModal();
                 })
             });
-            const fadeItems = document.querySelectorAll('.fade‑in‑item');
+            const fadeItems = document.querySelectorAll('.fade-in-item');
             function checkFade() {
                 fadeItems.forEach(item=>{
                     const rect = item.getBoundingClientRect();
