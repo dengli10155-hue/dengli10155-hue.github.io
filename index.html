@@ -114,10 +114,9 @@
             color: #555;
             max-width: 600px;
         }
-        /* 兜底防止JS失效页面空白 */
         .fade-in-item {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
+            opacity: 0;
+            transform: translateY(40px);
             transition: all 0.7s ease-out;
         }
         .fade-in-item.active {
@@ -424,112 +423,6 @@
         #popupBackSelect {
             margin-top:0;
         }
-        .float-help-btn{
-            position: fixed;
-            right:24px;
-            bottom:24px;
-            width:56px;
-            height:56px;
-            border-radius:50%;
-            background:#222;
-            color:#fff;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:26px;
-            cursor:pointer;
-            z-index:900;
-            box-shadow:0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
-            user-select:none;
-        }
-        .float-help-btn:hover{
-            transform: scale(1.08);
-        }
-        .help-dialog-wrap{
-            position:fixed;
-            right:24px;
-            bottom:90px;
-            width:340px;
-            max-width:calc(100vw - 48px);
-            background:#fff;
-            border-radius:12px;
-            box-shadow:0 6px 24px rgba(0,0,0,0.15);
-            z-index:901;
-            display:none;
-            overflow:hidden;
-            max-height: 60vh;
-            transition: max-height 0.35s ease;
-        }
-        .help-dialog-wrap.expand-mode{
-            max-height: 85vh;
-        }
-        .help-dialog-wrap.show{
-            display:block;
-        }
-        .help-dialog-header{
-            background:#222;
-            color:#fff;
-            padding:14px 18px;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-        }
-        .help-close{
-            cursor:pointer;
-            font-size:20px;
-        }
-        .help-content{
-            padding:16px;
-            max-height:60vh;
-            overflow-y:auto;
-        }
-        .more-q-link{
-            display:block;
-            text-align:center;
-            padding:8px 0 12px;
-            color:#1677ff;
-            font-size:14px;
-            user-select:none;
-            cursor:pointer;
-        }
-        .more-q-link:hover{
-            text-decoration: underline;
-        }
-        .q-item{
-            margin-bottom:10px;
-        }
-        .q-btn{
-            width:100%;
-            text-align:left;
-            padding:10px 12px;
-            border:1px solid #ddd;
-            background:#f7f7f7;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:0.95rem;
-        }
-        .q-btn:hover{
-            background:#eee;
-        }
-        .a-text{
-            padding:10px 12px;
-            background:#f0f0f0;
-            border-radius:0 0 8px 8px;
-            margin-top:-1px;
-            display:none;
-            font-size:0.9rem;
-            color:#333;
-        }
-        .a-text.show{
-            display:block;
-        }
-        .extra-faq-block{
-            display:none;
-        }
-        .help-dialog-wrap.expand-mode .extra-faq-block{
-            display:block;
-        }
         @media (max-width: 768px) {
             .nav-links a {
                 margin-left: 1rem;
@@ -572,16 +465,6 @@
             .nav-underline{
                 display:none;
             }
-            .help-dialog-wrap{
-                right:12px;
-                left:12px;
-                width:auto;
-                bottom:84px;
-            }
-            .float-help-btn{
-                right:16px;
-                bottom:16px;
-            }
         }
     </style>
 </head>
@@ -599,58 +482,6 @@
             </div>
         </div>
     </nav>
-    <div class="float-help-btn" id="floatHelpBtn">?</div>
-    <div class="help-dialog-wrap" id="helpDialog">
-        <div class="help-dialog-header">
-            <span>常见问题</span>
-            <span class="help-close" id="helpClose">×</span>
-        </div>
-        <div class="help-content" id="helpContent">
-            <div class="q-item">
-                <button class="q-btn">作品集是否可以下载？</button>
-                <div class="a-text">点击顶部导航栏【下载】按钮，可以申请获取完整作品集文件。</div>
-            </div>
-            <div class="extra-faq-block">
-                <div class="q-item">
-                    <button class="q-btn">离职原因？</button>
-                    <div class="a-text">公司组织架构调整</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">期望薪资？</button>
-                    <div class="a-text">会结合岗位职责、项目难度以及市场行情沟通。</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">未来规划？</button>
-                    <div class="a-text">深耕游戏美术UI方向，持续沉淀项目经验，产出高质量美术内容。</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">多久可以到岗？</button>
-                    <div class="a-text">可尽快到岗，可沟通确认入职时间。</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">熟练哪些软件？</button>
-                    <div class="a-text">PS、SAI、SPINE、SD AI绘图、Figma，熟悉游戏美术全流程。</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">是否接受测试？</button>
-                    <div class="a-text">面试过后如项目合适可接受1天内可完成的测试</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">UI经验多久？</button>
-                    <div class="a-text">多年游戏UI与原画项目实战经验，完整经历多款小游戏从立项到上线。</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">还有其他作品吗？</button>
-                    <div class="a-text">网页仅展示部分代表作品，完整作品集可联系我索取。</div>
-                </div>
-                <div class="q-item">
-                    <button class="q-btn">擅长什么风格？</button>
-                    <div class="a-text">擅长欧卡Q版、休闲游戏、二次元，也可适配写实类项目需求。</div>
-                </div>
-            </div>
-        </div>
-        <span class="more-q-link" id="toggleMoreQ">更多问题</span>
-    </div>
     <div class="overlay" id="downloadOverlay">
         <div class="popup-box">
             <div class="popup-select" id="popupSelect">
@@ -683,391 +514,546 @@
             <p>这里是我的个人作品集，展示项目、设计作品与思考。</p>
         </section>
         <section id="resume" class="fade-in-item">
-            <h2>个人简历</h2>
-            <div style="display:grid; gap:2rem;">
-                <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
-                    <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">基本信息</h3>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:16px;">
-                        <div>姓名：邓立</div>
-                        <div>电话：13902334715</div>
-                        <div>邮箱：3118079465@qq.com</div>
-                        <div>微信号：qlikestudio</div>
-                        <div>出生年月：1992.10.15</div>
-                    </div>
-                </div>
-                <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
-                    <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">教育背景</h3>
-                    <p style="font-size:1.1rem; font-weight:500;">2010‑2014 年 广州美术学院</p>
-                    <p>动画(影视艺术)专业</p>
-                    <div style="margin-top:12px; color:#444; line-height:1.7;">
-                        <p><strong>荣誉奖项：</strong>2010届金龙奖，毕业作品《为了下一代》获得金龙奖最佳动画短片金奖。在团队中担任副导演，负责剧本、分镜、角色设定、场景设定、特效、LOGO、片头、漫画、编辑。</p>
-                    </div>
-                </div>
-                <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
-                    <h3 style="margin-bottom:20px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">工作经历</h3>
-                    <div style="margin-bottom:24px; border-left:3px solid #27ae60; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2025.10‑2026.06 广州偏锋信息科技有限公司｜UI设计师</p>
-                        <p style="color:#555; font-size:0.95rem;">行业类别：游戏｜民营企业｜月薪：17000/月</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>负责小游戏的风格概念设计以及游戏资源输出</li>
-                            <li>负责把控美术资源最终实现效果</li>
-                            <li>SPINE动画前期设计，部分切图资源输出，角色SPINE动画制作</li>
-                            <li>参与游戏高保真原型图设计工作</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>独立负责小游戏从设计到上线全流程，熟悉前期原型流程、游戏视觉表现、UI细节把控。</p>
-                    </div>
-                    <div style="margin-bottom:24px; border-left:3px solid #88c999; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2024.05‑2025.06 广州字节跳动｜原画师</p>
-                        <p style="color:#555; font-size:0.95rem;">行业类别：游戏美术｜月薪：19000/月</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>负责小游戏原画相关工作</li>
-                            <li>游戏内角色精修：包含材质优化、光影优化、细节调整、服饰修饰、武器修饰</li>
-                            <li>负责角色设计：包含角色三视图、Q版造型设计、服装设计</li>
-                            <li>负责AI流程搭建：Stable Diffusion新功能研究与落地，实现角色概念批量产出</li>
-                            <li>负责AI系统研究：包含新技术探索与应用进游戏流程</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>深入理解AI的应用，实现更高效的资源产出和更精致的画面效果。</p>
-                    </div>
-                    <div style="margin-bottom:24px; border-left:3px solid #6099dd; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2023.04‑2024.04 深圳冰封科技有限公司｜原画师</p>
-                        <p style="color:#555; font-size:0.95rem;">项目：大富翁｜行业类别：网络游戏｜企业性质：民营｜规模：10000+｜月薪：15000/月</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>与主美确定游戏风格，包括角色、场景、UI等</li>
-                            <li>游戏内角色设计，三视图设计</li>
-                            <li>角色表情包设计</li>
-                            <li>人物形象设计：服装、发型、鞋子、包、人物表情等</li>
-                            <li>游戏美宣</li>
-                            <li>游戏内UI图标、场景概念图设计，家具设计，游戏道具设计</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>参与大富翁项目角色设计，以及三星堆相关道具、背景、UI升级图标设计，对项目有很深的理解。</p>
-                    </div>
-                    <div style="margin-bottom:24px; border-left:3px solid #44aacc; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2022.05‑2023.04 深圳嗨放网络科技有限公司｜原画师</p>
-                        <p style="color:#555; font-size:0.95rem;">项目：wonderland｜行业类别：网络游戏｜企业性质：民营｜规模：100+｜月薪：18000/月</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>与主美确定游戏风格，包括角色、场景、UI等</li>
-                            <li>游戏内角色设计，三视图设计</li>
-                            <li>指导建模师建模，实现最终效果</li>
-                            <li>人物形象设计：服装、发型、鞋子、包、人物表情等</li>
-                            <li>游戏美宣</li>
-                            <li>游戏内场景图、场景概念图设计，家具设计，游戏道具设计</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉角色服装设计与创角美术流程，产品成功上线海外并持续优化。</p>
-                    </div>
-                    <div style="margin-bottom:24px; border-left:3px solid #7788ee; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2021.07‑2022.05 深圳飞弹科技有限公司｜原画师</p>
-                        <p style="color:#555; font-size:0.95rem;">项目：taptap war｜行业类别：网络游戏｜企业性质：民营｜规模：100｜月薪：17000/月</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>与主美确定游戏风格，包括角色、场景、UI等</li>
-                            <li>游戏内角色设计，三视图设计</li>
-                            <li>指导建模师建模，实现最终效果</li>
-                            <li>绘制模型贴图</li>
-                            <li>游戏美宣</li>
-                            <li>输出部分图标</li>
-                            <li>游戏内场景图：idle图、loading图等界面背景图</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉lowpoly欧美卡通风格以及三维美术流程，产品上线Google商城持续优化。</p>
-                    </div>
-                    <div style="margin-bottom:24px; border-left:3px solid #eebb77; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2020.07‑2021.04 广州三七互娱科技有限公司｜原画师</p>
-                        <p style="color:#555; font-size:0.95rem;">项目：魔法消消斗｜行业类别：网络游戏｜企业性质：民营｜规模：10000｜月薪：14000/月</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>与主策确定游戏整体美术风格</li>
-                            <li>游戏内角色设计，三视图设计</li>
-                            <li>游戏icon、道具卡设计</li>
-                            <li>游戏特效设计</li>
-                            <li>游戏宣传海报设计</li>
-                            <li>游戏内场景图：idle图、loading图等界面背景图</li>
-                            <li>游戏角色龙骨动画制作</li>
-                            <li>确立画面风格，主导UI展开工作</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉海外消除类游戏制作流程，《魔法消消斗》成功上线持续优化。</p>
-                    </div>
-                    <div style="margin-bottom:24px; border-left:3px solid #9b59b6; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2018‑2021 业余时间兼职｜米画师认证专业画师</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>服务个人及商业客户，承接插画、原画、动画设计相关业务，积累作品案例60+</li>
-                            <li>米画师个人主页：<a href="https://www.mihuashi.com/profiles/23300" target="_blank" rel="noopener noreferrer">https://www.mihuashi.com/profiles/23300</a></li>
-                        </ul>
-                    </div>
-                    <div style="border-left:3px solid #ee9966; padding-left:16px;">
-                        <p style="font-weight:bold; font-size:1.05rem;">2014.09‑2020.12 公众号/插画行业/小游戏｜原画师</p>
-                        <p style="color:#555; font-size:0.95rem;">项目：朕说、大头欢乐学园、大诚当道</p>
-                        <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
-                            <li>公众号#朕说#插画绘制，节日图绘制</li>
-                            <li>表情包设计，GIF动图设计</li>
-                            <li>大诚当道品牌插画设计：热狗王汉堡、斗笠翁烤鱼、包道、好吃妹零食</li>
-                            <li>大头欢乐学院微信小游戏：角色形象设计、场景设计、部分UI</li>
-                        </ul>
-                        <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>熟悉商业插画完整流程，掌握Q版、写实、半写实、版画、白描、速写、儿童插画等多种风格，为后续工作打下基础。</p>
-                    </div>
-                </div>
-                <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
-                    <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">自我评价</h3>
-                    <p style="line-height:1.8; margin-top:12px;">
+    <h2>个人简历</h2>
+    <div style="display:grid; gap:2rem;">
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">基本信息</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:16px;">
+                <div>姓名：邓立</div>
+                <div>电话：13902334715</div>
+                <div>邮箱：3118079465@qq.com</div>
+                <div>微信号：qlikestudio</div>
+                <div>出生年月：1992.10.15</div>
+            </div>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">教育背景</h3>
+            <p style="font-size:1.1rem; font-weight:500;">2010‑2014 年 广州美术学院</p>
+            <p>动画(影视艺术)专业</p>
+            <div style="margin-top:12px; color:#444; line-height:1.7;">
+                <p><strong>荣誉奖项：</strong>2010届金龙奖，毕业作品《为了下一代》获得金龙奖最佳动画短片金奖。在团队中担任副导演，负责剧本、分镜、角色设定、场景设定、特效、LOGO、片头、漫画、编辑。</p>
+            </div>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:20px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">工作经历</h3>
+            <div style="margin-bottom:24px; border-left:3px solid #27ae60; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2025.10‑2026.06 广州偏锋信息科技有限公司｜UI设计师</p>
+                <p style="color:#555; font-size:0.95rem;">行业类别：游戏｜民营企业｜月薪：17000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>负责小游戏的风格概念设计以及游戏资源输出</li>
+                    <li>负责把控美术资源最终实现效果</li>
+                    <li>SPINE动画前期设计，部分切图资源输出，角色SPINE动画制作</li>
+                    <li>参与游戏高保真原型图设计工作</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>独立负责小游戏从设计到上线全流程，熟悉前期原型流程、游戏视觉表现、UI细节把控。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #88c999; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2024.05‑2025.06 广州字节跳动｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">行业类别：游戏美术｜月薪：19000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>负责小游戏原画相关工作</li>
+                    <li>游戏内角色精修：包含材质优化、光影优化、细节调整、服饰修饰、武器修饰</li>
+                    <li>负责角色设计：包含角色三视图、Q版造型设计、服装设计</li>
+                    <li>负责AI流程搭建：Stable Diffusion新功能研究与落地，实现角色概念批量产出</li>
+                    <li>负责AI系统研究：包含新技术探索与应用进游戏流程</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>深入理解AI的应用，实现更高效的资源产出和更精致的画面效果。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #6099dd; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2023.04‑2024.04 深圳冰封科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：大富翁｜行业类别：网络游戏｜企业性质：民营｜规模：10000+｜月薪：15000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主美确定游戏风格，包括角色、场景、UI等</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>角色表情包设计</li>
+                    <li>人物形象设计：服装、发型、鞋子、包、人物表情等</li>
+                    <li>游戏美宣</li>
+                    <li>游戏内UI图标、场景概念图设计，家具设计，游戏道具设计</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>参与大富翁项目角色设计，以及三星堆相关道具、背景、UI升级图标设计，对项目有很深的理解。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #44aacc; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2022.05‑2023.04 深圳嗨放网络科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：wonderland｜行业类别：网络游戏｜企业性质：民营｜规模：100+｜月薪：18000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主美确定游戏风格，包括角色、场景、UI等</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>指导建模师建模，实现最终效果</li>
+                    <li>人物形象设计：服装、发型、鞋子、包、人物表情等</li>
+                    <li>游戏美宣</li>
+                    <li>游戏内场景图、场景概念图设计，家具设计，游戏道具设计</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉角色服装设计与创角美术流程，产品成功上线海外并持续优化。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #7788ee; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2021.07‑2022.05 深圳飞弹科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：taptap war｜行业类别：网络游戏｜企业性质：民营｜规模：100｜月薪：17000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主美确定游戏风格，包括角色、场景、UI等</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>指导建模师建模，实现最终效果</li>
+                    <li>绘制模型贴图</li>
+                    <li>游戏美宣</li>
+                    <li>输出部分图标</li>
+                    <li>游戏内场景图：idle图、loading图等界面背景图</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉lowpoly欧美卡通风格以及三维美术流程，产品上线Google商城持续优化。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #eebb77; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2020.07‑2021.04 广州三七互娱科技有限公司｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：魔法消消斗｜行业类别：网络游戏｜企业性质：民营｜规模：10000｜月薪：14000/月</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>与主策确定游戏整体美术风格</li>
+                    <li>游戏内角色设计，三视图设计</li>
+                    <li>游戏icon、道具卡设计</li>
+                    <li>游戏特效设计</li>
+                    <li>游戏宣传海报设计</li>
+                    <li>游戏内场景图：idle图、loading图等界面背景图</li>
+                    <li>游戏角色龙骨动画制作</li>
+                    <li>确立画面风格，主导UI展开工作</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>经历产品立项、研发、上线，熟悉海外消除类游戏制作流程，《魔法消消斗》成功上线持续优化。</p>
+            </div>
+            <div style="margin-bottom:24px; border-left:3px solid #9b59b6; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2018‑2021 业余时间兼职｜米画师认证专业画师</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>服务个人及商业客户，承接插画、原画、动画设计相关业务，积累作品案例60+</li>
+                    <li>米画师个人主页：<a href="https://www.mihuashi.com/profiles/23300" target="_blank" rel="noopener noreferrer">https://www.mihuashi.com/profiles/23300</a></li>
+                </ul>
+            </div>
+            <div style="border-left:3px solid #ee9966; padding-left:16px;">
+                <p style="font-weight:bold; font-size:1.05rem;">2014.09‑2020.12 公众号/插画行业/小游戏｜原画师</p>
+                <p style="color:#555; font-size:0.95rem;">项目：朕说、大头欢乐学园、大诚当道</p>
+                <ul style="padding-left:20px; margin:8px 0; line-height:1.7;">
+                    <li>公众号#朕说#插画绘制，节日图绘制</li>
+                    <li>表情包设计，GIF动图设计</li>
+                    <li>大诚当道品牌插画设计：热狗王汉堡、斗笠翁烤鱼、包道、好吃妹零食</li>
+                    <li>大头欢乐学院微信小游戏：角色形象设计、场景设计、部分UI</li>
+                </ul>
+                <p style="color:#555; font-size:0.95rem;"><strong>在职总结：</strong>熟悉商业插画完整流程，掌握Q版、写实、半写实、版画、白描、速写、儿童插画等多种风格，为后续工作打下基础。</p>
+            </div>
+        </div>
+        <div style="background:#fff; padding:24px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
+            <h3 style="margin-bottom:16px; display:inline-block; background:#222; color:#fff; padding:6px 24px; border-radius:99px;">自我评价</h3>
+            <p style="line-height:1.8; margin-top:12px;">
 本人性格开朗、稳重、有活力，待人热情、真诚；工作认真负责，积极主动，能吃苦耐劳，具有承受压力的能力，勇于创新；有很强的组织能力和团队协作精神，具有较强的适应能力；纪律性强，工作积极配合；意志坚强，具有较强的无私奉献精神。
-                    </p>
-                </div>
-            </div>
-        </section>
+            </p>
+        </div>
+    </div>
+</section>
         <section id="portfolio" class="fade-in-item">
-            <div class="section-title">
-                <h2>作品集</h2>
-                <p style="margin-top:8px; opacity:0.7;">平台小游戏 | UI设计师 &nbsp; 2014‑2026</p>
+    <div class="section-title">
+        <h2>作品集</h2>
+        <p style="margin-top:8px; opacity:0.7;">平台小游戏 | UI设计师 &nbsp; 2014‑2026</p>
+    </div>
+    <div style="display:flex; gap:12px; margin-top:24px; margin-bottom:20px;">
+        <button id="tab_biz" onclick="switchPortfolioTab('biz')" style="padding:10px 22px; border:none; border-radius:8px; cursor:pointer; font-size:1rem; background:#222; color:#fff;">商业项目</button>
+        <button id="tab_prac" onclick="switchPortfolioTab('prac')" style="padding:10px 22px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:1rem; background:#fff;">个人练习</button>
+    </div>
+    <div id="panel_biz" class="portfolio-grid">
+        <div class="work-item-card" data-imgs='[
+"img/game_spin_thumb.jpg",
+"img/game_spin_pic00.jpg",
+"img/game_spin_pic01.jpg",
+"img/game_spin_pic02.jpg",
+"img/game_spin_pic03.jpg",
+"img/game_spin_pic04.jpg",
+"img/game_spin_pic06.jpg",
+"img/game_spin_pic07.jpg",
+"img/game_spin_picf05.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_spin_thumb.jpg" alt="项目封面">
             </div>
-            <div style="display:flex; gap:12px; margin-top:24px; margin-bottom:20px;">
-                <button id="tab_biz" onclick="switchPortfolioTab('biz')" style="padding:10px 22px; border:none; border-radius:8px; cursor:pointer; font-size:1rem; background:#222; color:#fff;">商业项目</button>
-                <button id="tab_prac" onclick="switchPortfolioTab('prac')" style="padding:10px 22px; border:1px solid #ddd; border-radius:8px; cursor:pointer; font-size:1rem; background:#fff;">个人练习</button>
+            <div class="info">
+                <h4>休闲博弈小游戏:Spin/Chiken...</h4>
+                <p class="desc-text">2026</p>
             </div>
-            <div id="panel_biz" class="portfolio-grid">
-                <div class="work-item-card" data-imgs='["img/game_spin_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_spin_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>休闲博弈小游戏:Spin/Chiken...</h4>
-                        <p class="desc-text">2026</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/game_zombie_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_zombie_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>模拟经营：Zombie</h4>
-                        <p class="desc-text">2025</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/game_allwar_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_allwar_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>模拟经营：全民大作战</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/game_wonder_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_wonder_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>多人社交种田：Wonderland</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/game_taptapwar_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_taptapwar_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>多人对战竞技：Taptap war</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/game_magicmatch_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_magicmatch_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>消除游戏：魔法消消斗</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/game_kid_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/game_kid_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>儿童游戏/小游戏</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/art_zenshuo_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/art_zenshuo_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>公众号IP插画：朕说</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/art_comic_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/art_comic_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>插画/漫画</h4>
-                        <p class="desc-text">2014‑2017</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/art_grad_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/art_grad_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>毕业动画作品</h4>
-                        <p class="desc-text">《为了下一代》</p>
-                    </div>
-                </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_zombie_thumb.jpg",
+"img/game_zombie_pic00.jpg",
+"img/game_zombie_pic01.jpg",
+"img/game_zombie_pic02.jpg",
+"img/game_zombie_pic03.jpg",
+"img/game_zombie_pic04.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_zombie_thumb.jpg" alt="项目封面">
             </div>
-            <div id="panel_prac" class="portfolio-grid" style="display:none;">
-                <div class="work-item-card" data-imgs='["img/char_scifi_girl_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_scifi_girl_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>角色设定/欧卡/科幻/少女</h4>
-                        <p class="desc-text">#成套IP练习</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_flower_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_flower_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>角色设定/欧卡/休闲游戏/花店</h4>
-                        <p class="desc-text">#经营类欧卡主角概念稿</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_viking_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_viking_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>角色设定/欧卡/维京/部落</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_real_style_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_real_style_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>写实角色风格化设定</h4>
-                        <p class="desc-text">#给腾讯出的概念稿</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_lowpoly_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_lowpoly_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>角色设定/欧卡/LOWPOLY</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_space_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_space_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>角色设定/卡通/宇航</h4>
-                        <p class="desc-text">#B站初音活动概念稿</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_chibi_figure_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_chibi_figure_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>角色设定/手办/Q版</h4>
-                        <p class="desc-text">#某社交游戏角色概念稿</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/scene_q_nightmarket_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/scene_q_nightmarket_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>Q版场景</h4>
-                        <p class="desc-text">#动物夜市/场景概念稿</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_cook_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_cook_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>欧卡/经营/厨师</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_rock_apoc_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_rock_apoc_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>欧卡/SLG/摇滚手/末日</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_archer_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_archer_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>二次元/弓箭手</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/ip_doudizhu_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/ip_doudizhu_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>斗地主IP设计</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_anime_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_anime_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>二次元风</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/art_moon_anci_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/art_moon_anci_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>古风/月亮</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/art_poster_honor_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/art_poster_honor_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>美宣/王者皮肤</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_anci_male_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_anci_male_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>古风/男角色临摹</h4>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/art_slot_egypt_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/art_slot_egypt_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>SLOT/埃及</h4>
-                        <p class="desc-text">#写实风</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/ui_match_royal_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/ui_match_royal_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>欧卡/UI/消除</h4>
-                        <p class="desc-text">#类ROYAL MATCH UI设计</p>
-                    </div>
-                </div>
-                <div class="work-item-card" data-imgs='["img/char_3d_model_thumb.jpg"]'>
-                    <div class="card-preview">
-                        <img class="card-preview-img" src="img/char_3d_model_thumb.jpg" alt="项目封面">
-                    </div>
-                    <div class="info">
-                        <h4>3D角色建模</h4>
-                        <p class="desc-text">#角色建模作品</p>
-                    </div>
-                </div>
+            <div class="info">
+                <h4>模拟经营：Zombie</h4>
+                <p class="desc-text">2025</p>
             </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_allwar_thumb.jpg",
+"img/game_allwar_pic01.jpg",
+"img/game_allwar_pic04.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_allwar_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>模拟经营：全民大作战</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_wonder_thumb.jpg",
+"img/game_wonder_pic00.jpg",
+"img/game_wonder_pic01.jpg",
+"img/game_wonder_pic02.jpg",
+"img/game_wonder_pic03.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_wonder_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>多人社交种田：Wonderland</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_taptapwar_thumb.jpg",
+"img/game_taptapwar_pic00.jpg",
+"img/game_taptapwar_pic01.jpg",
+"img/game_taptapwar_pic02.jpg",
+"img/game_taptapwar_pic03.jpg",
+"img/game_taptapwar_pic04.jpg",
+"img/game_taptapwar_pic05.jpg",
+"img/game_taptapwar_pic06.jpg",
+"img/game_taptapwar_pic07.jpg",
+"img/game_taptapwar_pic08.jpg",
+"img/game_taptapwar_pic09.jpg",
+"img/game_taptapwar_pic10.jpg",
+"img/game_taptapwar_pic11.jpg",
+"img/game_taptapwar_pic16.jpg",
+"img/game_taptapwar_pic17.jpg",
+"img/game_taptapwar_pic18.jpg",
+"img/game_taptapwar_pic19.jpg",
+"img/game_taptapwar_pic20.jpg",
+"img/game_taptapwar_pic21.jpg",
+"img/game_taptapwar_pic22.jpg",
+"img/game_taptapwar_pic23.jpg",
+"img/game_taptapwar_pic24.jpg",
+"img/game_taptapwar_pic25.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_taptapwar_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>多人对战竞技：Taptap war</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_magicmatch_thumb.jpg",
+"img/game_magicmatch_pic00.jpg",
+"img/game_magicmatch_pic01.jpg",
+"img/game_magicmatch_pic02.jpg",
+"img/game_magicmatch_pic03.jpg",
+"img/game_magicmatch_pic04.jpg",
+"img/game_magicmatch_pic05.jpg",
+"img/game_magicmatch_pic06.jpg",
+"img/game_magicmatch_pic07.jpg",
+"img/game_magicmatch_pic08.jpg",
+"img/game_magicmatch_pic09.jpg",
+"img/game_magicmatch_pic10.jpg",
+"img/game_magicmatch_pic11.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_magicmatch_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>消除游戏：魔法消消斗</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/game_kid_thumb.jpg",
+"img/game_kid_pic00.jpg",
+"img/game_kid_pic01.jpg",
+"img/game_kid_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/game_kid_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>儿童游戏/小游戏</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_zenshuo_thumb.jpg",
+"img/art_zenshuo_pic01.jpg",
+"img/art_zenshuo_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_zenshuo_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>公众号IP插画：朕说</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_comic_thumb.jpg",
+"img/art_comic_pic00.jpg",
+"img/art_comic_pic01.jpg",
+"img/art_comic_pic02.jpg",
+"img/art_comic_pic03.jpg",
+"img/art_comic_pic04.jpg",
+"img/art_comic_pic05.jpg",
+"img/art_comic_pic06.jpg",
+"img/art_comic_pic07.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_comic_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>插画/漫画</h4>
+                <p class="desc-text">2014‑2017</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_grad_thumb.jpg",
+"img/art_grad_pic00.jpg",
+"img/art_grad_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_grad_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>毕业动画作品</h4>
+                <p class="desc-text">《为了下一代》</p>
+            </div>
+        </div>
+    </div>
+    <div id="panel_prac" class="portfolio-grid" style="display:none;">
+        <div class="work-item-card" data-imgs='[
+"img/char_scifi_girl_thumb.jpg",
+"img/char_scifi_girl_pic00.jpg",
+"img/char_scifi_girl_pic01.jpg",
+"img/char_scifi_girl_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_scifi_girl_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/科幻/少女</h4>
+                <p class="desc-text">#成套IP练习</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_flower_thumb.jpg",
+"img/char_flower_pic.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_flower_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/休闲游戏/花店</h4>
+                <p class="desc-text">#经营类欧卡主角概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_viking_thumb.jpg",
+"img/char_viking_pic00.jpg",
+"img/char_viking_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_viking_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/维京/部落</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='["img/char_real_style_thumb.jpg"]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_real_style_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>写实角色风格化设定</h4>
+                <p class="desc-text">#给腾讯出的概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_lowpoly_thumb.jpg",
+"img/char_lowpoly_pic00.jpg",
+"img/char_lowpoly_pic01.jpg",
+"img/char_lowpoly_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_lowpoly_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/欧卡/LOWPOLY</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='["img/char_space_thumb.jpg"]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_space_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/卡通/宇航</h4>
+                <p class="desc-text">#B站初音活动概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='["img/char_chibi_figure_thumb.jpg"]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_chibi_figure_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>角色设定/手办/Q版</h4>
+                <p class="desc-text">#某社交游戏角色概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/scene_q_nightmarket_thumb.jpg"
+]'>
+        <div class="card-preview">
+                <img class="card-preview-img" src="img/scene_q_nightmarket_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>Q版场景</h4>
+                <p class="desc-text">#动物夜市/场景概念稿</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_cook_thumb.jpg",
+"img/char_cook_pic01.jpg",
+"img/char_cook_pic02.jpg"
+]'>
+    <div class="card-preview">
+        <img class="card-preview-img" src="img/char_cook_thumb.jpg" alt="项目封面">
+    </div>
+    <div class="info">
+        <h4>欧卡/经营/厨师</h4>
+    </div>
+</div>
+        <div class="work-item-card" data-imgs='[
+"img/char_rock_apoc_thumb.jpg",
+"img/char_rock_apoc_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_rock_apoc_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>欧卡/SLG/摇滚手/末日</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_archer_thumb.jpg",
+"img/char_archer_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_archer_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>二次元/弓箭手</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/ip_doudizhu_thumb.jpg",
+"img/ip_doudizhu_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/ip_doudizhu_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>斗地主IP设计</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_anime_thumb.jpg",
+"img/char_anime_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_anime_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>二次元风</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_moon_anci_thumb.jpg",
+"img/art_moon_anci_pic01.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_moon_anci_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>古风/月亮</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_poster_honor_thumb.jpg",
+"img/art_poster_honor_pic.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_poster_honor_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>美宣/王者皮肤</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_anci_male_thumb.jpg",
+"img/char_anci_male_pic01.jpg",
+"img/char_anci_male_pic02.jpg",
+"img/char_anci_male_pic03.jpg",
+"img/char_anci_male_pic04.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_anci_male_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>古风/男角色临摹</h4>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/art_slot_egypt_thumb.jpg",
+"img/art_slot_egypt_pic00.jpg",
+"img/art_slot_egypt_pic01.jpg",
+"img/art_slot_egypt_pic02.jpg",
+"img/art_slot_egypt_pic03.jpg",
+"img/art_slot_egypt_pic04.jpg",
+"img/art_slot_egypt_pic05.jpg",
+"img/art_slot_egypt_pic06.jpg",
+"img/art_slot_egypt_pic07.jpg",
+"img/art_slot_egypt_pic08.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/art_slot_egypt_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>SLOT/埃及</h4>
+                <p class="desc-text">#写实风</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/ui_match_royal_thumb.jpg",
+"img/ui_match_royal_pic01.jpg",
+"img/ui_match_royal_pic02.jpg",
+"img/ui_match_royal_pic03.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/ui_match_royal_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>欧卡/UI/消除</h4>
+                <p class="desc-text">#类ROYAL MATCH UI设计</p>
+            </div>
+        </div>
+        <div class="work-item-card" data-imgs='[
+"img/char_3d_model_thumb.jpg",
+"img/char_3d_model_pic01.jpg",
+"img/char_3d_model_pic02.jpg"
+]'>
+            <div class="card-preview">
+                <img class="card-preview-img" src="img/char_3d_model_thumb.jpg" alt="项目封面">
+            </div>
+            <div class="info">
+                <h4>3D角色建模</h4>
+                <p class="desc-text">#角色建模作品</p>
+            </div>
+        </div>
+    </div>
         </section>
         <section id="contact" class="fade-in-item">
             <h2>联系我</h2>
@@ -1093,9 +1079,10 @@
             <div class="modal-page" id="modalPage"></div>
         </div>
     </div>
-    <footer>© 2026 个人作品集</footer>
+    <footer>
+        © 2026 个人作品集
+    </footer>
 <script>
-//导航下划线
 const underline = document.querySelector('.nav-underline');
 const navItems = Array.from(document.querySelectorAll('.nav-links > a'));
 const sections = navItems.map(a => document.querySelector(a.getAttribute('href')));
@@ -1107,7 +1094,9 @@ function updateUnderline(el) {
     underline.style.left = (rect.left - parentRect.left) + 'px';
 }
 navItems.forEach(item=>{
-    item.addEventListener('click',()=>{ updateUnderline(item); })
+    item.addEventListener('click',()=>{
+        updateUnderline(item);
+    })
 })
 const observerOptions = {root:null,rootMargin:"-30% 0px -60% 0px",threshold:0};
 const observer = new IntersectionObserver((entries)=>{
@@ -1122,33 +1111,7 @@ const observer = new IntersectionObserver((entries)=>{
 },observerOptions);
 sections.forEach(s=>{if(s) observer.observe(s);})
 window.addEventListener('load',()=>{ updateUnderline(navItems[0]); });
-//FAQ弹窗
-const floatHelpBtn = document.getElementById('floatHelpBtn');
-const helpDialog = document.getElementById('helpDialog');
-const helpClose = document.getElementById('helpClose');
-const toggleMoreQ = document.getElementById('toggleMoreQ');
-floatHelpBtn.addEventListener('click',()=>{
-    helpDialog.classList.toggle('show');
-    if(!helpDialog.classList.contains('show')){
-        helpDialog.classList.remove('expand-mode');
-        toggleMoreQ.innerText = '更多问题';
-    }
-})
-helpClose.addEventListener('click',()=>{
-    helpDialog.classList.remove('show');
-    helpDialog.classList.remove('expand-mode');
-    toggleMoreQ.innerText = '更多问题';
-})
-toggleMoreQ.addEventListener('click',()=>{
-    helpDialog.classList.toggle('expand-mode');
-    toggleMoreQ.innerText = helpDialog.classList.contains('expand-mode') ? '收起更多' : '更多问题';
-})
-document.querySelectorAll('.q-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-        btn.nextElementSibling.classList.toggle('show');
-    })
-})
-//滚动渐入
+
 const fadeItems = document.querySelectorAll('.fade-in-item');
 const fadeObserver = new IntersectionObserver((entries)=>{
     entries.forEach(en=>{
@@ -1158,7 +1121,7 @@ const fadeObserver = new IntersectionObserver((entries)=>{
     })
 },{threshold:0.1});
 fadeItems.forEach(i=>fadeObserver.observe(i));
-//tab切换
+
 function switchPortfolioTab(mode){
     const biz = document.getElementById('panel_biz');
     const prac = document.getElementById('panel_prac');
@@ -1174,7 +1137,7 @@ function switchPortfolioTab(mode){
         tb.style.background='#fff'; tb.style.color='#333';
     }
 }
-//作品弹窗
+
 const modal = document.getElementById('imgModal');
 const modalImg = document.getElementById('dragImg');
 const modalClose = document.querySelector('.modal-close');
@@ -1188,6 +1151,7 @@ let scale = 1;
 let dx=0, dy=0;
 let isDrag=false;
 let dragStartX=0,dragStartY=0,startDx=0,startDy=0;
+
 document.querySelectorAll('.work-item-card').forEach(card=>{
     card.addEventListener('click',()=>{
         currentList = JSON.parse(card.dataset.imgs);
@@ -1197,12 +1161,22 @@ document.querySelectorAll('.work-item-card').forEach(card=>{
         document.documentElement.classList.add('html-lock-scroll');
     })
 })
+
 function openModalImage(idx){
     currentIdx = idx;
     scale=1; dx=0; dy=0;
     modalImg.style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
     modalImg.src = currentList[currentIdx];
     pageInfo.innerText = `${currentIdx+1} / ${currentList.length}`;
+
+    if(currentList.length <= 1){
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }else{
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+    }
+
     thumbsBox.innerHTML = '';
     currentList.forEach((src,i)=>{
         const thumb = document.createElement('div');
@@ -1212,6 +1186,7 @@ function openModalImage(idx){
         thumbsBox.appendChild(thumb);
     })
 }
+
 prevBtn.addEventListener('click',()=>{
     let ni = currentIdx-1;
     if(ni<0) ni = currentList.length-1;
@@ -1261,7 +1236,7 @@ window.addEventListener('mousemove',(e)=>{
     modalImg.style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
 })
 window.addEventListener('mouseup',()=>{isDrag=false;})
-//下载弹窗
+
 const overlay = document.getElementById('downloadOverlay');
 const btnOpenPopup = document.getElementById('openDownloadPopup');
 const btnCloseSelect = document.getElementById('popupCloseSelect');
@@ -1273,10 +1248,6 @@ const emailForm = document.getElementById('emailForm');
 const submitEmailBtn = document.getElementById('submitEmailBtn');
 const inputEmail = document.getElementById('inputEmail');
 const btnNetdisk = document.getElementById('btnNetdisk');
-
-// ============这里修改你的网盘地址================
-const BAIDU_NETDISK_URL = "https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA";
-// =================================================
 
 btnOpenPopup.addEventListener('click',()=>{
     overlay.classList.add('show');
@@ -1299,46 +1270,17 @@ popupBackSelect.addEventListener('click',()=>{
 overlay.addEventListener('click',(ev)=>{
     if(ev.target === overlay) overlay.classList.remove('show');
 })
-emailForm.addEventListener('submit', async (e)=>{
+emailForm.addEventListener('submit',(e)=>{
     e.preventDefault();
-    const userEmail = inputEmail.value.trim();
-    submitEmailBtn.innerText = "发送中...";
+    submitEmailBtn.classList.add('success-state');
+    submitEmailBtn.innerText = "提交成功";
     submitEmailBtn.disabled = true;
-
-    try {
-        const res = await fetch("https://green-boat-a012.3118079465.workers.dev", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: userEmail
-            })
-        });
-
-        const result = await res.json();
-        if(result.success){
-            submitEmailBtn.classList.add('success-state');
-            submitEmailBtn.innerText = "提交成功";
-            setTimeout(()=>{ overlay.classList.remove('show'); },1200);
-        }else{
-            alert("发送失败："+ result.msg);
-            submitEmailBtn.innerText = "提交获得作品集";
-            submitEmailBtn.disabled = false;
-        }
-    } catch(err) {
-        console.error(err);
-        alert("网络异常，请稍后重试");
-        submitEmailBtn.innerText = "提交获得作品集";
-        submitEmailBtn.disabled = false;
-    }
+    setTimeout(()=>{
+        overlay.classList.remove('show');
+    },1200);
 })
-
-
-//点击百度网盘按钮，新标签打开网盘链接，同时关闭弹窗
 btnNetdisk.addEventListener('click',()=>{
-    window.open(BAIDU_NETDISK_URL,"_blank");
-    overlay.classList.remove('show');
+    window.open("https://pan.baidu.com/s/1VU0u-BjEiMUzdp1SPRqGyA","_blank");
 })
 </script>
 </body>
